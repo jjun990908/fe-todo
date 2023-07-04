@@ -7,10 +7,11 @@ var rl = readline.createInterface({
   output: process.stdout,
 });
 
+//  입력 반복 받기
 var recursiveAsyncReadLine = function () {
   rl.question("명령어를 입력하세요: ", function (answer) {
+    // 명령어 확인
     if (answer == "exit") return rl.close();
-
     input = answer.split("$");
     if (input[0] === "show") {
       show(input[1]);
@@ -24,13 +25,13 @@ var recursiveAsyncReadLine = function () {
     } else {
       console.log("명령어가 없습니다.");
     }
-
     recursiveAsyncReadLine();
   });
 };
 
 recursiveAsyncReadLine();
 
+// show 명령어 함수
 const show = function (status) {
   parameter = status;
   let todo = 0;
@@ -61,12 +62,13 @@ const show = function (status) {
       console.log("해당 status가 없습니다.");
       return;
     }
-    let st = `${parameter} 리스트 : 총 ${count}건 : `;
-    result.map((item) => (st += `'${item.name}, ${item.id}', `));
-    console.log(st);
+    let line = `${parameter} 리스트 : 총 ${count}건 : `;
+    result.map((item) => (line += `'${item.name}, ${item.id}', `));
+    console.log(line);
   }
 };
 
+// add 명령어 함수
 const add = function (name, tag) {
   const random = Math.random() * 1000000 + 1;
   const check = todos.filter((item) => item.name === name);
@@ -85,6 +87,7 @@ const add = function (name, tag) {
   show("all");
 };
 
+// delete 명령어 함수
 const delete_item = function (id) {
   let flag = false;
   todos.forEach((item, idx) => {
@@ -100,6 +103,7 @@ const delete_item = function (id) {
   }
 };
 
+// update 명령어 함수
 const update = function (id, status) {
   let flag = false;
   todos.forEach((item, idx) => {
