@@ -1,5 +1,3 @@
-//todos.js
-
 let todos = [
   {
     name: "자바스크립트 공부하기",
@@ -15,4 +13,6 @@ let todos = [
   },
 ];
 
-export default todos;
+module.exports = {
+  todos,
+};
