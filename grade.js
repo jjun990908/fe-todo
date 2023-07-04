@@ -1,27 +1,6 @@
 const { log } = require("console");
 var readline = require("readline");
-// const { todos } = require("./todos");
-
-let todos = [
-  {
-    name: "자바스크립트 공부하기",
-    tags: ["programming", "javascript"],
-    status: "todo",
-    id: 12123123,
-  },
-  {
-    name: "자바스크립트 공부",
-    tags: ["programming", "javascript"],
-    status: "todo",
-    id: 123,
-  },
-  {
-    name: "그림 그리기",
-    tags: ["picture", "favorite"],
-    status: "doing",
-    id: 312323,
-  },
-];
+const { todos } = require("./todos");
 
 var rl = readline.createInterface({
   input: process.stdin,
@@ -82,14 +61,19 @@ const show = function (status) {
       console.log("해당 status가 없습니다.");
       return;
     }
-    let st = `${parameter} 리스트 : 총 ${count}건`;
+    let st = `${parameter} 리스트 : 총 ${count}건 : `;
     result.map((item) => (st += `'${item.name}, ${item.id}', `));
     console.log(st);
   }
 };
 
 const add = function (name, tag) {
-  const random = Math.floor(Math.random() * 100000) + 1;
+  const random = Math.random() * 1000000 + 1;
+  const check = todos.filter((item) => item.name === name);
+  if (check) {
+    console.log("입력하신 이름과 같은 TODO리스트가 존재합니다.");
+    return;
+  }
   const newItem = {
     name: name,
     tag: tag,
@@ -102,21 +86,31 @@ const add = function (name, tag) {
 };
 
 const delete_item = function (id) {
+  let flag = false;
   todos.forEach((item, idx) => {
     if (item.id === parseInt(id)) {
       todos.splice(idx, 1);
       console.log(`${item.name} ${item.status}가 목록에서 삭제되었습니다.`);
+      flag = true;
       show("all");
     }
   });
+  if (!flag) {
+    console.log("입력하신 id값에 해당하는 값이 존재하지 않습니다.");
+  }
 };
 
 const update = function (id, status) {
+  let flag = false;
   todos.forEach((item, idx) => {
     if (item.id === parseInt(id)) {
       item.status = status;
       console.log(`${item.name} ${item.status}으로 상태가 변경됐습니다`);
+      flag = true;
       show("all");
     }
   });
+  if (!flag) {
+    console.log("입력하신 id값에 해당하는 값이 존재하지 않습니다.");
+  }
 };
