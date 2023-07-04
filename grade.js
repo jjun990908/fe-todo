@@ -40,6 +40,10 @@ var recursiveAsyncReadLine = function () {
       add(input[1], tag);
     } else if (input[0] === "delete") {
       delete_item(input[1]);
+    } else if (input[0] === "update") {
+      update(input[1], input[2]);
+    } else {
+      console.log("명령어가 없습니다.");
     }
 
     recursiveAsyncReadLine();
@@ -102,7 +106,17 @@ const delete_item = function (id) {
     if (item.id === parseInt(id)) {
       todos.splice(idx, 1);
       console.log(`${item.name} ${item.status}가 목록에서 삭제되었습니다.`);
+      show("all");
     }
   });
-  show("all");
+};
+
+const update = function (id, status) {
+  todos.forEach((item, idx) => {
+    if (item.id === parseInt(id)) {
+      item.status = status;
+      console.log(`${item.name} ${item.status}으로 상태가 변경됐습니다`);
+      show("all");
+    }
+  });
 };
