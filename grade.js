@@ -48,13 +48,11 @@ const show = function (status) {
     console.log(
       `todo: ${count.todo}개, doing: ${count.doing}개, done: ${count.done}개`
     );
-  } else if (status === "name") {
-    let line = `총 ${all}건의 이름 :`;
-    todos.map((item) => (line += `'${item.name}',`));
+  } else if (status === "tags" || status === "name" || status === "id") {
+    let line = `총 ${count.all}건의 ${status} :`;
+    todos.map((item) => (line += `'${item[status]}',`));
     line = line.slice(0, -1);
     console.log(line);
-  } else if (status === "tag") {
-  } else if (status === "id") {
   } else {
     const result = todos.filter((todo) => todo.status === status);
     let line = `${status} 리스트 : 총 ${count[status]}건 : `;
