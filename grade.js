@@ -60,14 +60,21 @@ const show = function (status) {
   });
   if (parameter === "all") {
     console.log(`todo: ${todo}개, doing: ${doing}개, done: ${done}개`);
-  } else if (parameter === "todo") {
-    const result = todos.filter((todo) => todo.status === "todo");
-    let st = "todo리스트 : 총";
-    st += `${todo}건: `;
+  } else {
+    const result = todos.filter((todo) => todo.status === parameter);
+    let count = 0;
+    if (parameter === "todo") {
+      count = todo;
+    } else if (parameter === "doing") {
+      count = doing;
+    } else if (parameter === "done") {
+      count = done;
+    } else {
+      console.log("해당 status가 없습니다.");
+      return;
+    }
+    let st = `${parameter} 리스트 : 총 ${count}건`;
     result.map((item) => (st += `'${item.name}, ${item.id}', `));
     console.log(st);
-  } else if (parameter === "doing") {
-  } else if (parameter === "done") {
-  } else {
   }
 };
