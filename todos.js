@@ -6,10 +6,16 @@ let todos = [
     id: 12123123,
   },
   {
-    name: " 그림 그리기",
+    name: "그림 그리기",
     tags: ["picture", "favorite"],
     status: "doing",
     id: 312323,
+  },
+  {
+    name: "test",
+    tags: ["picture", "favorite"],
+    status: "doing",
+    id: 3,
   },
 ];
 
