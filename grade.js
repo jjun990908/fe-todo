@@ -1,3 +1,4 @@
+const { log } = require("console");
 var readline = require("readline");
 // const { todos } = require("./todos");
 
@@ -9,7 +10,13 @@ let todos = [
     id: 12123123,
   },
   {
-    name: " 그림 그리기",
+    name: "자바스크립트 공부",
+    tags: ["programming", "javascript"],
+    status: "todo",
+    id: 123,
+  },
+  {
+    name: "그림 그리기",
     tags: ["picture", "favorite"],
     status: "doing",
     id: 312323,
@@ -37,26 +44,30 @@ var recursiveAsyncReadLine = function () {
 recursiveAsyncReadLine();
 
 const show = function (status) {
-  //show 함수
-  if (status === "all") {
-    // input 값이 all 일때
-    todo = 0;
-    doing = 0;
-    done = 0;
-    todos.forEach((element) => {
-      status = element.status;
-      if (status === "todo") {
-        todo += 1;
-      } else if (status === "doing") {
-        doing += 1;
-      } else if (status === "done") {
-        done += 1;
-      }
-    });
+  parameter = status;
+  let todo = 0;
+  let doing = 0;
+  let done = 0;
+  todos.forEach((element) => {
+    status = element.status;
+    if (status === "todo") {
+      todo += 1;
+    } else if (status === "doing") {
+      doing += 1;
+    } else if (status === "done") {
+      done += 1;
+    }
+  });
+  if (parameter === "all") {
     console.log(`todo: ${todo}개, doing: ${doing}개, done: ${done}개`);
-  } else if (status === "todo") {
-  } else if (status === "doing") {
-  } else if (status === "done") {
+  } else if (parameter === "todo") {
+    const result = todos.filter((todo) => todo.status === "todo");
+    let st = "todo리스트 : 총";
+    st += `${todo}건: `;
+    result.map((item) => (st += `'${item.name}, ${item.id}', `));
+    console.log(st);
+  } else if (parameter === "doing") {
+  } else if (parameter === "done") {
   } else {
   }
 };
