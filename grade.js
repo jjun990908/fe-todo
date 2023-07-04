@@ -38,6 +38,8 @@ var recursiveAsyncReadLine = function () {
     } else if (input[0] === "add") {
       const tag = JSON.parse(input[2]);
       add(input[1], tag);
+    } else if (input[0] === "delete") {
+      delete_item(input[1]);
     }
 
     recursiveAsyncReadLine();
@@ -92,5 +94,15 @@ const add = function (name, tag) {
   };
   todos.push(newItem);
   console.log(`${name}이 1개가 추가됐습니다.(id:${random})`);
+  show("all");
+};
+
+const delete_item = function (id) {
+  todos.forEach((item, idx) => {
+    if (item.id === parseInt(id)) {
+      todos.splice(idx, 1);
+      console.log(`${item.name} ${item.status}가 목록에서 삭제되었습니다.`);
+    }
+  });
   show("all");
 };
