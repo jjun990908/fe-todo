@@ -35,6 +35,9 @@ var recursiveAsyncReadLine = function () {
     input = answer.split("$");
     if (input[0] === "show") {
       show(input[1]);
+    } else if (input[0] === "add") {
+      const tag = JSON.parse(input[2]);
+      add(input[1], tag);
     }
 
     recursiveAsyncReadLine();
@@ -77,4 +80,17 @@ const show = function (status) {
     result.map((item) => (st += `'${item.name}, ${item.id}', `));
     console.log(st);
   }
+};
+
+const add = function (name, tag) {
+  const random = Math.floor(Math.random() * 100000) + 1;
+  const newItem = {
+    name: name,
+    tag: tag,
+    status: "todo",
+    id: random,
+  };
+  todos.push(newItem);
+  console.log(`${name}이 1개가 추가됐습니다.(id:${random})`);
+  show("all");
 };
