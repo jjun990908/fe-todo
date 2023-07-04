@@ -1,8 +1,8 @@
 const { log } = require("console");
-var readline = require("readline");
+const readline = require("readline");
 const { todos } = require("./todos");
 
-var rl = readline.createInterface({
+const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
@@ -26,7 +26,7 @@ function print_Help() {
 }
 
 //  입력 반복 받기
-var recursiveAsyncReadLine = function () {
+const recursiveAsyncReadLine = function () {
   rl.question("명령어를 입력하세요: ", function (answer) {
     // 명령어 확인
     input = answer.split("$");
