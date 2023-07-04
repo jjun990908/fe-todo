@@ -7,23 +7,51 @@ var rl = readline.createInterface({
   output: process.stdout,
 });
 
+function print_Help() {
+  console.log("\n\t\t\t사용 가능한 명령어 목록");
+  console.log(
+    "===================================================================="
+  );
+  console.log(
+    " show\t: [ all || status(todo, doing, done) || name || tags || id ]"
+  );
+  console.log(" add\t: [ name $ id ]");
+  console.log(" delete : [ id ]");
+  console.log(" update : [ id $ status ]");
+  console.log(" help");
+  console.log(" exit");
+  console.log(
+    "====================================================================\n\n"
+  );
+}
+
 //  입력 반복 받기
 var recursiveAsyncReadLine = function () {
   rl.question("명령어를 입력하세요: ", function (answer) {
     // 명령어 확인
-    if (answer == "exit") return rl.close();
     input = answer.split("$");
-    if (input[0] === "show") {
-      show(input[1]);
-    } else if (input[0] === "add") {
-      const tag = JSON.parse(input[2]);
-      add(input[1], tag);
-    } else if (input[0] === "delete") {
-      delete_item(input[1]);
-    } else if (input[0] === "update") {
-      update(input[1], input[2]);
-    } else {
-      console.log("명령어가 없습니다.");
+    const command = input[0];
+    switch (command) {
+      case "show":
+        show(input[1]);
+        break;
+      case "add":
+        const tag = JSON.parse(input[2]);
+        add(input[1], tag);
+        break;
+      case "delete":
+        delete_item(input[1]);
+        break;
+      case "update":
+        update(input[1], input[2]);
+        break;
+      case "help":
+        print_Help();
+        break;
+      case "exit":
+        return rl.close();
+      default:
+        console.log("명령어가 없습니다.");
     }
     recursiveAsyncReadLine();
   });
@@ -64,11 +92,19 @@ const show = function (status) {
 
 // add 명령어 함수
 const add = function (name, tag) {
-  const random = Math.random() * 1000000 + 1;
-  const check = todos.filter((item) => item.name === name);
-  if (check) {
+  let random = Math.floor(Math.random() * 1000000) + 1;
+  const check_name = todos.filter((item) => item.name === name);
+  if (check_name.length >= 1) {
     console.log("입력하신 이름과 같은 TODO리스트가 존재합니다.");
     return;
+  }
+  while (true) {
+    let check_id = todos.filter((item) => item.id === random);
+    if (check_id.length >= 1) {
+      random = Math.floor(Math.random() * 1000000) + 1;
+    } else {
+      break;
+    }
   }
   const newItem = {
     name: name,
