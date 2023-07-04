@@ -4,8 +4,11 @@
 
 ## Show
 
-입력( all, status(todo, doing, done) )
-출력   (ALL) 현재상태 :
+입력
+(all, status(todo, doing, done), name, tag, id)
+
+출력
+(ALL) 현재상태 :
 forEach 로 상태 개수 세기
 (status)
 filter 함수로 거르기

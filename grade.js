@@ -33,37 +33,33 @@ recursiveAsyncReadLine();
 
 // show 명령어 함수
 const show = function (status) {
-  parameter = status;
-  let todo = 0;
-  let doing = 0;
-  let done = 0;
+  const count = {
+    todo: 0,
+    doing: 0,
+    done: 0,
+    all: 0,
+  };
   todos.forEach((element) => {
-    status = element.status;
-    if (status === "todo") {
-      todo += 1;
-    } else if (status === "doing") {
-      doing += 1;
-    } else if (status === "done") {
-      done += 1;
-    }
+    count["all"] += 1;
+    count[element.status] += 1;
   });
-  if (parameter === "all") {
-    console.log(`todo: ${todo}개, doing: ${doing}개, done: ${done}개`);
+
+  if (status === "all") {
+    console.log(
+      `todo: ${count.todo}개, doing: ${count.doing}개, done: ${count.done}개`
+    );
+  } else if (status === "name") {
+    let line = `총 ${all}건의 이름 :`;
+    todos.map((item) => (line += `'${item.name}',`));
+    line = line.slice(0, -1);
+    console.log(line);
+  } else if (status === "tag") {
+  } else if (status === "id") {
   } else {
-    const result = todos.filter((todo) => todo.status === parameter);
-    let count = 0;
-    if (parameter === "todo") {
-      count = todo;
-    } else if (parameter === "doing") {
-      count = doing;
-    } else if (parameter === "done") {
-      count = done;
-    } else {
-      console.log("해당 status가 없습니다.");
-      return;
-    }
-    let line = `${parameter} 리스트 : 총 ${count}건 : `;
-    result.map((item) => (line += `'${item.name}, ${item.id}', `));
+    const result = todos.filter((todo) => todo.status === status);
+    let line = `${status} 리스트 : 총 ${count[status]}건 : `;
+    result.map((item) => (line += `'${item.name}, ${item.id}',`));
+    line = line.slice(0, -1);
     console.log(line);
   }
 };
