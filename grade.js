@@ -27,7 +27,7 @@ const recursiveAsyncReadLine = function () {
             break;
           }
         } else {
-          console.log("다시 입력해주세요");
+          console.log("다시 입력해주세요...");
         }
         break;
       case "delete":
@@ -48,6 +48,7 @@ const recursiveAsyncReadLine = function () {
         printHelp();
         break;
       case "exit":
+        console.log("프로그램을 종료합니다.");
         return rl.close();
       default:
         console.log("명령어가 없습니다.");
@@ -170,19 +171,16 @@ const isIn = function (type, value) {
 };
 
 function printHelp() {
-  console.log("\n\t\t\t사용 가능한 명령어 목록");
-  console.log(
-    "===================================================================="
-  );
-  console.log(
-    " show\t: [ all || status(todo, doing, done) || name || tags || id ]"
-  );
-  console.log(" add\t: [ name $ id ]");
-  console.log(" delete : [ id ]");
-  console.log(" update : [ id $ status ]");
-  console.log(" help");
-  console.log(" exit");
-  console.log(
-    "====================================================================\n\n"
-  );
+  const message =
+    "\n\t\t\t사용 가능한 명령어 목록\n\
+    ========================================================================\n\
+     show\t: [ all || status(todo, doing, done) || name || tags || id ]\n\
+     add\t: [ name $ id ]\n\
+     delete\t: [ id ]\n\
+     update\t: [ id $ status ]\n\
+     help\n\
+     exit\n\
+    ========================================================================\n\
+    ";
+  console.log(message);
 }
