@@ -1,4 +1,3 @@
-const { log } = require("console");
 const readline = require("readline");
 let { todos } = require("./todos");
 
@@ -18,8 +17,18 @@ const recursiveAsyncReadLine = function () {
         showItem(input[1]);
         break;
       case "add":
-        const tag = JSON.parse(input[2]);
-        addItem(input[1], tag);
+        if (input.length == 3) {
+          let tag;
+          try {
+            tag = JSON.parse(input[2]);
+            addItem(input[1], tag);
+          } catch (e) {
+            console.log("tag를 정확한 형식으로 입력해주세요.");
+            break;
+          }
+        } else {
+          console.log("다시 입력해주세요");
+        }
         break;
       case "delete":
         if (isIn("id", input[1])) {
@@ -82,8 +91,13 @@ const showItem = function (status) {
 
 // add 명령어 함수
 const addItem = function (name, tag) {
+  if (!name && !tag) {
+    console.log("status를 입력해주세요.");
+    return;
+  }
   let newId = getId();
   if (isIn("name", name)) {
+    console.log("입력하신 이름이 이미 존재합니다. 다시 입력해주세요");
     return;
   }
   const newItem = {
@@ -110,6 +124,10 @@ const deleteItem = function (id) {
 
 // update 명령어 함수
 const updateItem = function (id, status) {
+  if (!status) {
+    console.log("status를 입력해주세요.");
+    return;
+  }
   todos.forEach((item) => {
     if (item.id === parseInt(id)) {
       item.status = status;
@@ -119,6 +137,7 @@ const updateItem = function (id, status) {
   showItem("all");
 };
 
+// 랜덤 id 생성 및 중복 확인
 const getId = function () {
   const getRandomId = () => Math.floor(Math.random() * 10000000) + 1;
   let newId = getRandomId();
@@ -136,6 +155,7 @@ const getId = function () {
   }
 };
 
+// 입력 값이 존재하는지 확인
 const isIn = function (type, value) {
   let valueValidation = false;
   todos.forEach((item) => {
