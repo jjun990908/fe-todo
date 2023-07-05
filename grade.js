@@ -1,6 +1,6 @@
 const { log } = require("console");
 const readline = require("readline");
-const { todos } = require("./todos");
+let { todos } = require("./todos");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -22,10 +22,18 @@ const recursiveAsyncReadLine = function () {
         addItem(input[1], tag);
         break;
       case "delete":
-        deleteItem(input[1]);
+        if (isIn("id", input[1])) {
+          deleteItem(input[1]);
+        } else {
+          console.log("입력하신 id 값에 해당하는 항목이 없습니다.");
+        }
         break;
       case "update":
-        updateItem(input[1], input[2]);
+        if (isIn("id", input[1])) {
+          updateItem(input[1], input[2]);
+        } else {
+          console.log("입력하신 id 값에 해당하는 항목이 없습니다.");
+        }
         break;
       case "help":
         printHelp();
@@ -75,7 +83,7 @@ const showItem = function (status) {
 // add 명령어 함수
 const addItem = function (name, tag) {
   let newId = getId();
-  if (!checkValidation(name)) {
+  if (isIn("name", name)) {
     return;
   }
   const newItem = {
@@ -91,34 +99,24 @@ const addItem = function (name, tag) {
 
 // delete 명령어 함수
 const deleteItem = function (id) {
-  let flag = false;
-  todos.forEach((item, idx) => {
+  todos = todos.filter((item) => {
     if (item.id === parseInt(id)) {
-      todos.splice(idx, 1);
       console.log(`${item.name} ${item.status}가 목록에서 삭제되었습니다.`);
-      flag = true;
-      showItem("all");
     }
+    return item.id != id;
   });
-  if (!flag) {
-    console.log("입력하신 id값에 해당하는 값이 존재하지 않습니다.");
-  }
+  showItem("all");
 };
 
 // update 명령어 함수
 const updateItem = function (id, status) {
-  let flag = false;
   todos.forEach((item) => {
     if (item.id === parseInt(id)) {
       item.status = status;
       console.log(`${item.name} ${item.status}으로 상태가 변경됐습니다`);
-      flag = true;
-      showItem("all");
     }
   });
-  if (!flag) {
-    console.log("입력하신 id값에 해당하는 값이 존재하지 않습니다.");
-  }
+  showItem("all");
 };
 
 const getId = function () {
@@ -138,18 +136,17 @@ const getId = function () {
   }
 };
 
-const checkValidation = function (name) {
-  let nameValidation = false;
+const isIn = function (type, value) {
+  let valueValidation = false;
   todos.forEach((item) => {
-    if (item.name === name) {
-      nameValidation = true;
+    if (item[type].toString() === value) {
+      valueValidation = true;
     }
   });
-  if (nameValidation) {
-    console.log("이미 존재하는 이름입니다.");
-    return false;
+  if (valueValidation) {
+    return true;
   }
-  return true;
+  return false;
 };
 
 function printHelp() {
